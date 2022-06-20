@@ -1,6 +1,6 @@
 ## 支持向量机(Support Vector Machine, SVM)
 
-SVM是一种二元分类模型，它依托的原理是如果能找到一条线，能够划分样本，并且训练点到线的间隔尽可能远，也就是所有点到超平面的最小值要最大，这样的分割线(一般叫超平面, Hyperplane)就是最好的分类方式，间隔叫作Margin。因此SVM的两个关键点就是：完全分类正确，及所有点到超平面的最小值要最大。
+SVM 是一种二元分类模型，它依托的原理是如果能找到一条线，能够划分样本，并且训练点到线的间隔尽可能远，也就是所有点到超平面的最小值要最大，这样的分割线(一般叫超平面,   Hyperplane )就是最好的分类方式，间隔叫作 Margin。因此 SVM 的两个关键点就是：完全分类正确，及所有点到超平面的最小值要最大。
 
 <div style="text-align: center">
 <img src="assets/20180214224342909.png" alt="img" style="zoom:50%;" />
@@ -9,29 +9,16 @@ SVM是一种二元分类模型，它依托的原理是如果能找到一条线�
 
 ### 1. 线性SVM
 
-设定超平面为$w^{T} x+b=0$, 在超平面上方我们定义$y=1$，下方定义为$y=-1$，则点$x$到超平面的**几何间隔**为:
-$$
-\frac{1}{\|w\|}\left|w^{T} x+b\right|
-$$
-我们需要判断分类是否正确，可以通过观察$y$(实际值)和$w^{T} x+b$(预测值)是否同号($y$只能为$1$或$-1$)，即我们可以定义**函数间隔**:
-$$
-\gamma^{\prime}=y\left(w^{T} x+b\right)
-$$
+设定超平面为 $w^{T} x+b=0$, 在超平面上方我们定义 $y=1$，下方定义为 $y=-1$，则点 $x$ 到超平面的**几何间隔**为:
+$$\frac{1}{\|w\|}\left|w^{T} x+b\right|$$
+我们需要判断分类是否正确，可以通过观察 $y$(实际值)和 $w^{T}x+b$ (预测值)是否同号( $y$只能为 $1$ 或$-1$)，即我们可以定义**函数间隔**:
+$$\gamma^{\prime}=y\left(w^{T} x+b\right)$$
 现在我们可以初步定义优化函数为:
-$$
-\max \gamma=\frac{y\left(w^{T} x+b\right)}{\|w\|} \\
-\text { s.t } y_{i}\left(w^{T} x_{i}+b\right)=\gamma^{\prime(i)} \geq \gamma^{\prime}(i=1,2, \ldots m)
-$$
-由于无论$w$和$b$怎么放缩，超平面的几何位置不变，所以我们可以设定最小的函数间隔$\gamma^{\prime}=1$，这样优化函数进一步简化为：
-$$
-\max \frac{1}{\|w\|} \\
-\text { s.t } y_{i}\left(w^{T} x_{i}+b\right) \geq 1(i=1,2, \ldots m)
-$$
-由于$\frac{1}{\|w\|}$等同于$\frac{1}{2}\|w\|^{2}$的最小化，所以最终的优化函数可以表达为：
-$$
-\min \frac{1}{2}\|w\|^{2} \\
-\text { s.t } y_{i}\left(w^{T} x_{i}+b\right) \geq 1(i=1,2, \ldots m)
-$$
+$$\max \gamma=\frac{y\left(w^{T} x+b\right)}{\|w\|} \\\text { s.t } y_{i}\left(w^{T} x_{i}+b\right)=\gamma^{\prime(i)} \geq \gamma^{\prime}(i=1,2, \ldots m)$$
+由于无论 $w$ 和 $b$ 怎么放缩，超平面的几何位置不变，所以我们可以设定最小的函数间隔$\gamma^{\prime}=1$，这样优化函数进一步简化为：
+$$\max \frac{1}{\|w\|} \\\text { s.t } y_{i}\left(w^{T} x_{i}+b\right) \geq 1(i=1,2, \ldots m)$$
+由于 $\frac{1}{\|w\|}$ 等同于 $\frac{1}{2}\|w\|^{2}$ 的最小化，所以最终的优化函数可以表达为：
+$$\min \frac{1}{2}\|w\|^{2} \\\text { s.t } y_{i}\left(w^{T} x_{i}+b\right) \geq 1(i=1,2, \ldots m)$$
 这样其实就是一个标准的二次规划(QP)问题，可以代入别的工具求解
 
 ### 2. 对偶SVM
@@ -173,31 +160,19 @@ $$
 ### 4. 核函数SVM
 
 对于完全线性不可分的情况，我们可以将数据映射到高维，从而线性可分。回顾线性可分的SVM优化函数：
-$$
- \begin{gathered}\underbrace{\min }_{\alpha} \frac{1}{2} \sum_{i=1}^{m} \sum_{j=1}^{m} \alpha_{i} \alpha_{j} y_{i} y_{j}\left(x_{i} \cdot x_{j}\right)-\sum_{i=1}^{m} \alpha_{i} \\\text { s.t. } \sum_{i=1}^{m} \alpha_{i} y_{i}=0 \\\alpha_{i} \geq 0 i=1,2, \ldots m\end{gathered}
-$$
+$$ \begin{gathered}\underbrace{\min }_{\alpha} \frac{1}{2} \sum_{i=1}^{m} \sum_{j=1}^{m} \alpha_{i} \alpha_{j} y_{i} y_{j}\left(x_{i} \cdot x_{j}\right)-\sum_{i=1}^{m} \alpha_{i} \\\text { s.t. } \sum_{i=1}^{m} \alpha_{i} y_{i}=0 \\\alpha_{i} \geq 0 i=1,2, \ldots m\end{gathered}$$
 上式低维特征仅仅以内积$𝑥_𝑖∙𝑥_𝑗$的形式出现，如果我们定义一个低维特征空间到高维特征空间的映射$\phi$，将所有特征映射到一个更高的维度，让数据线性可分，从而按照前面的方法求出超平面，即：
-$$
-\begin{gathered}
-\underbrace{\min }_{\alpha} \frac{1}{2} \sum_{i=1, j=1}^{m} \alpha_{i} \alpha_{j} y_{i} y_{j} \phi\left(x_{i}\right) \cdot \phi\left(x_{j}\right)-\sum_{i=1}^{m} \alpha_{i} \\
-\text { s.t. } \sum_{i=1}^{m} \alpha_{i} y_{i}=0 \\
-0 \leq \alpha_{i} \leq C
-\end{gathered}
-$$
+
+$$\begin{gathered}\underbrace{\min }_{\alpha} \frac{1}{2} \sum_{i=1, j=1}^{m} \alpha_{i} \alpha_{j} y_{i} y_{j} \phi\left(x_{i}\right) \cdot \phi\left(x_{j}\right)-\sum_{i=1}^{m} \alpha_{i} \\\text { s.t. } \sum_{i=1}^{m} \alpha_{i} y_{i}=0 \\0 \leq \alpha_{i} \leq C\end{gathered}$$
+
 但是这样我们需要求出内积$\phi\left(x_{i}\right) \cdot \phi\left(x_{j}\right)$，这样类似于二次规划那样会引入一个$\tilde{d}$维空间，从而发生维度爆炸影响计算速度。
 
 为此我们可以引入核函数，设$\phi$是一个从低维的输入空间$\chi$（欧式空间的子集或者离散集合）到高维的希尔伯特空间的$\mathcal{H}$映射，如果存在函数$K(x, x')$，对于任意$x, x'\in\chi$，都有：
-$$
-K(x, x')=\phi(x) \bullet \phi(x')
-$$
+$$K(x, x')=\phi(x) \bullet \phi(x')$$
 咋看跟上面没什么区别，但实际上核函数计算都是在低维空间下进行的，例如对于
-$$
-\Phi(\mathbf{x})=\left(1, x_{1}, x_{2}, \ldots, x_{d}, x_{1}^{2}, x_{1} x_{2}, \ldots, x_{1} x_{d}, x_{2} x_{1}, x_{2}^{2}, \ldots, x_{2} x_{d}, \ldots, x_{d}^{2}\right)
-$$
+$$\Phi(\mathbf{x})=\left(1, x_{1}, x_{2}, \ldots, x_{d}, x_{1}^{2}, x_{1} x_{2}, \ldots, x_{1} x_{d}, x_{2} x_{1}, x_{2}^{2}, \ldots, x_{2} x_{d}, \ldots, x_{d}^{2}\right)$$
 我们得到:
-$$
-K_{\Phi}\left(x, x^{\prime}\right)=1+\left(x^{T} x^{\prime}\right)+\left(x^{T} x^{\prime}\right)^{2}
-$$
+$$K_{\Phi}\left(x, x^{\prime}\right)=1+\left(x^{T} x^{\prime}\right)+\left(x^{T} x^{\prime}\right)^{2}$$
 这样看只需要计算低维空间的内积就行了。
 
 常见的核函数有四种： 
